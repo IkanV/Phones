@@ -2,12 +2,19 @@ import {makeAutoObservable} from "mobx";
 
 export default class PhonesStore {
     constructor() {
+        this._sort = [
+            {id:"1", name:"По возрастанию рейтинга", column:"rating_up"},
+            {id:"2", name:"По убыванию рейтинга", column:"rating_down"},
+            {id:"3", name:"По возрастанию цены", column:"price_up"},
+            {id:"4", name:"По убыванию цены", column:"price_down"},
+        ];
         this._types = [];
         this._brands = [];
         this._clothing = [];
         this._selectedType = {};
         this._selectedBrand = {};
         this._page = 1;
+        this._selectedSort = {};
         this._totalCount = 0;
         this._limit = 9;
         makeAutoObservable(this);
@@ -16,6 +23,10 @@ export default class PhonesStore {
     setSelectedType(selectedType) {
         this.setPage(1);
         this._selectedType = selectedType;
+    }
+    setSelectedSort(selectedSort) {
+        this.setPage(1);
+        this._selectedSort = selectedSort;
     }
     setSelectedBrand(selectedBrand) {
         this.setPage(1);
@@ -52,6 +63,9 @@ export default class PhonesStore {
     get selectedBrand() {
         return this._selectedBrand;
     }
+    get selectedSort(){
+        return this._selectedSort;
+    }
     get page() {
         return this._page;
     }
@@ -60,5 +74,8 @@ export default class PhonesStore {
     }
     get limit() {
         return this._limit;
+    }
+    get sort() {
+        return this._sort;
     }
 }

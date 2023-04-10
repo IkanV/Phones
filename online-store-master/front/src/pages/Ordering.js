@@ -12,20 +12,20 @@ const Ordering = ({cartItems}) => {
     const history = useHistory();
 
     const buy = () => {
-        // let order = {
-        //     mobile: phone,
-        //     basket: basket.Basket
-        // }
+        let order = {
+            mobile: phone,
+            basket: basket.Basket
+        }
         
-        // if(user.isAuth) {
-        //     order.auth = true;
-        // }
+        if(user.isAuth) {
+            order.auth = true;
+        }
 
-        // sendOrder(order).then(data => {
-        //     console.log(data);
-        //     basket.setDeleteAllPhonesFromBasket();
-        //     history.push(SHOP_ROUTE);
-        // });
+        sendOrder(order).then(data => {
+            console.log(data);
+            basket.setDeleteAllPhonesFromBasket();
+            history.push(SHOP_ROUTE);
+        });
         const url = "http://localhost:5000/api";
         axios.post(`${url}/stripe/create-checkout-session`, 
         {
@@ -41,13 +41,13 @@ const Ordering = ({cartItems}) => {
     }
     return (
         <>
-            {/* <Form>
+            <Form>
                 <Form.Control
                     placeholder="Input your phone..."
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                 />
-            </Form> */}
+            </Form>
             <Row className="mt-3">
                 <Col xs={12}>
                     <Button onClick={buy}>Buy</Button>

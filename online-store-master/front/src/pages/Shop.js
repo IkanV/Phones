@@ -44,18 +44,23 @@ const Shop = observer(() => {
 
     useEffect(
         () => {
+            if(!phones.selectedSort){
+                const all = {id:"7", name:"A boshki dumyatsa", column:"all"};
+                phones.setSelectedSort(all)
+            }
             if(phones.selectedType === "All" || !phones.selectedType) {
-                    fetchPhones(null, phones.selectedBrand.id, phones.page, 9, searchPhones).then(data => {
+                    fetchPhones(null, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 9, searchPhones).then(data => {
+                        
                         phones.setClothing(data.rows);
                         phones.setTotalCount(data.count);
                     });
                 } else {
-                    fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.page, 9, searchPhones).then(data => {
+                    fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 9, searchPhones).then(data => {
                         phones.setClothing(data.rows);
                         phones.setTotalCount(data.count);
                     });
                 }
-        }, [phones.page, phones.selectedType, phones.selectedBrand, searchPhones],
+        }, [phones.page, phones.selectedType, phones.selectedBrand, searchPhones, phones.selectedSort],
     );
 
     return (
@@ -80,6 +85,17 @@ const Shop = observer(() => {
             <Row className="mt-3">
                 <Col md={3}>
                     <TypeBar/>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" md={3} className='mt-3' id="dropdown-basic">
+                            Отсортировать товары по
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {phones.sort.map(sort_type =>
+                                <Dropdown.Item key={sort_type.id} onClick={() => phones.setSelectedSort(sort_type)}>{sort_type.name}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Col>
                 <Col md={9}>
                     <BrandBar/>

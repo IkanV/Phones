@@ -55,9 +55,9 @@ const OneOrder = () => {
                             Brand: {descr.brand.name}<br />
                             Type: {descr.type.name}<br />
                             Name: {descr.name}<br />
-                            Price: {descr.price} RUB<br />
+                            Price: {descr.price} $<br />
                             Count: {count}<br />
-                            Total price: {count * descr.price} RUB
+                            Total price: {count * descr.price} $
                         </Col>
                     </Row>
                 )

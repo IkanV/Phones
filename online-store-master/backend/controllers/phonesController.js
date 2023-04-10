@@ -8,18 +8,18 @@ const Sequelize = require("sequelize");
 function updateOrCreate(model, where, newItem) {
     // First try to find the record
     return model.findOne({ where: where }).then(function (foundItem) {
-      if (!foundItem) {
-        // Item not found, create a new one
-        return model.create(newItem).then(function (item) {
-          return { item: item, created: true };
+        if (!foundItem) {
+            // Item not found, create a new one
+            return model.create(newItem).then(function (item) {
+                return { item: item, created: true };
+            });
+        }
+        // Found an item, update it
+        return model.update(newItem, { where: where }).then(function (item) {
+            return { item: item, created: false };
         });
-      }
-      // Found an item, update it
-      return model.update(newItem, { where: where }).then(function (item) {
-        return { item: item, created: false };
-      });
     });
-  }
+}
 
 class PhonesController {
     async create(req, res, next) {
@@ -54,74 +54,96 @@ class PhonesController {
 
     }
 
-async getAll(req, res, next) {
-    try {
-        let {brandId, typeId, limit, page, searchName} = req.query;
-        page = page || 1
-        limit = limit || 9
-        let offset = page * limit - limit
-        let clothing = {};
-        if(typeId === 0){
-            typeId = false;
-        }
-        if (!brandId && !typeId) {
-            clothing = await Phones.findAndCountAll({
-                where:{
-                    name: { [Sequelize.Op.substring]: searchName },
-                },
-                include: [
-                    {model: Brand},
-                    {model: Type},
-                ],
-                limit,
-                offset})
-        }
-        if (brandId && typeId) {
-            clothing = await Phones.findAndCountAll({
-                where:{
-                    brandId,
-                    typeId,
-                    name: { [Sequelize.Op.substring]: searchName },
-                },
-                include: [
-                    {model: Brand},
-                    {model: Type},
-                ],
-                limit,
-                offset})
-        }
-        if (!brandId && typeId) {
-            clothing = await Phones.findAndCountAll({
-                where:{
-                    typeId,
-                    name: { [Sequelize.Op.substring]: searchName },
-                },
-                include: [
-                    {model: Brand},
-                    {model: Type},
-                ],
-                limit,
-                offset})
-        }
-        if (brandId && !typeId) {
-            clothing = await Phones.findAndCountAll({
-                where:{
-                    brandId,
-                    name: { [Sequelize.Op.substring]: searchName },
-                },
-                include: [
-                    {model: Brand},
-                    {model: Type},
-                ],
-                limit,
-                offset})
-        }
+    async getAll(req, res, next) {
+        try {
+            let {brandId, typeId, limit, page, searchName, sort} = req.query;
+            page = page || 1
+            limit = limit || 9
+            let offset = page * limit - limit
+            let clothing = {};
+            if(typeId === 0){
+                typeId = false;
+            }
+            let sorting
+            switch (sort) {
+                case "1":
+                    sorting = {name:'rating',type:'ASC'}
+                    break;
+                case "2":
+                    sorting = {name:'rating',type:'DESC'}
+                    break;
+                case "3":
+                    sorting = {name:'price',type:'ASC'}
+                    break;
+                case "4":
+                    sorting = {name:'price',type:'DESC'}
+                    break;
+                default:
+                    sorting = {name:'name', type:'ASC'}
+                    break;
+            }
+            if (!brandId && !typeId) {
+                clothing = await Phones.findAndCountAll({
+                    order:[[sorting.name,sorting.type]],
+                    where:{
+                        name: { [Sequelize.Op.substring]: searchName },
+                    },
+                    include: [
+                        {model: Brand},
+                        {model: Type},
+                    ],
+                    limit,
+                    offset})
+            }
+            if (brandId && typeId) {
+                clothing = await Phones.findAndCountAll({
+                    order:[[sorting.name,sorting.type]],
+                    where:{
+                        brandId,
+                        typeId,
+                        name: { [Sequelize.Op.substring]: searchName },
+                    },
+                    include: [
+                        {model: Brand},
+                        {model: Type},
+                    ],
+                    limit,
+                    offset})
+            }
+            if (!brandId && typeId) {
+                clothing = await Phones.findAndCountAll({
+                    order:[[sorting.name,sorting.type]],
+                    where:{
+                        typeId,
+                        name: { [Sequelize.Op.substring]: searchName },
+                    },
+                    include: [
+                        {model: Brand},
+                        {model: Type},
+                    ],
+                    limit,
+                    offset})
+            }
+            if (brandId && !typeId) {
+                clothing = await Phones.findAndCountAll({
+                    order:[[sorting.name,sorting.type]],
+                    where:{
+                        brandId,
+                        name: { [Sequelize.Op.substring]: searchName },
+                    },
+                    include: [
+                        {model: Brand},
+                        {model: Type},
+                    ],
+                    limit,
+                    offset})
+            }
 
-        return res.json(clothing)
-    } catch (e) {
-        next(apiError.badRequest(e.message));
+            return res.json(clothing)
+        } catch (e) {
+            next(apiError.badRequest(e.message));
+        }
     }
-}
 
     async getSearchAllPhonesByName(req, res, next) {
         try {
@@ -258,12 +280,12 @@ async getAll(req, res, next) {
                             if(infos.length == 0)
                             {
                                 PhonesInfo.destroy(
-            
+
                                     {
                                         where:
-                                        {
-                                            phoneId: id
-                                        }
+                                            {
+                                                phoneId: id
+                                            }
                                     }
                                 );
                             }
@@ -273,7 +295,7 @@ async getAll(req, res, next) {
                                     { phoneId : id },
                                     { phoneId : id, title:i.title, description:i.description}
                                 )
-                )}
+                            )}
 
                         await Phones.update({
                             ...newVal
@@ -284,7 +306,7 @@ async getAll(req, res, next) {
                         return res.json("This phones doesn't exist in DB");
                     }
                 })
-            } catch (e) {
+        } catch (e) {
             return res.json(e);
         }
     }

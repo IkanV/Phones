@@ -2,7 +2,7 @@ import {Button, Nav} from "react-bootstrap";
 import React, {useContext} from "react";
 import {Context} from "../../../index";
 import {useHistory} from "react-router-dom";
-import {ADMIN_ROUTE, INTO_CHAT_ROUTE, ORDERS_ROUTE} from "../../../utils/consts";
+import {ADMIN_ROUTE, INTO_CHANGE, INTO_CHAT_ROUTE, ORDERS_ROUTE} from "../../../utils/consts";
 import BasketNavBar from "../BasketNavBar";
 
 const TrueAuth = () => {
@@ -32,6 +32,13 @@ const TrueAuth = () => {
                 onClick={() => {history.push(INTO_CHAT_ROUTE)}}
             >
                 Поддержка
+            </Button>}
+            {user.isAuth && user.User.role === "USER" && <Button
+                className={"mr-3"}
+                variant={"outline-light"}
+                onClick={() => {history.push(INTO_CHANGE)}}
+            >
+                Обмен
             </Button>}
                 {user.isAuth && user.User.role === "ADMIN" && <Button
                 className={"mr-3"}
