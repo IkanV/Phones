@@ -4,6 +4,7 @@ const path = require('path');
 const {Phones, PhonesInfo, Type, Brand, OrderPhones, BasketPhones} = require('../models/models');
 const apiError = require('../error/apiError');
 const Sequelize = require("sequelize");
+const { model } = require("../db/db");
 
 function updateOrCreate(model, where, newItem) {
     // First try to find the record
@@ -52,6 +53,12 @@ class PhonesController {
             next(apiError.badRequest(e.message));
         }
 
+    }
+    async getAllAn(req, res, next)
+    {
+        const clothing = await Phones.findAll({include: [{model: Brand}]});
+        return res.json(clothing);
+        
     }
 
     async getAll(req, res, next) {

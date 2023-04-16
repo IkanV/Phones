@@ -36,7 +36,7 @@ const TrueAuth = () => {
             {user.isAuth && user.User.role === "USER" && <Button
                 className={"mr-3"}
                 variant={"outline-light"}
-                onClick={() => {history.push(INTO_CHANGE)}}
+                href={INTO_CHANGE}
             >
                 Обмен
             </Button>}

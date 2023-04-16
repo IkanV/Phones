@@ -42,6 +42,10 @@ export const fetchPhones = async (typeId, brandId, sort, page, limit = 9, search
         }});
     return data;
 }
+export const fetchPhonesTest = async () => {
+    const {data} = await $host.get('api/phones/getAll');
+    return data;
+}
 
 export const fetchOnePhones = async (id) => {
     const {data} = await $host.get(`api/phones/${id}`);

@@ -17,6 +17,9 @@ export default class PhonesStore {
         this._selectedSort = {};
         this._totalCount = 0;
         this._limit = 9;
+        this._change_phone_first = {}
+        this._change_phone_second = {}
+
         makeAutoObservable(this);
     }
 
@@ -47,6 +50,13 @@ export default class PhonesStore {
     setTotalCount(totalCount) {
         this._totalCount = totalCount;
     }
+    setChangePhoneFirst(phone) {
+        this._change_phone_first = phone;
+    }
+    setChangePhoneSecond(phone) {
+        this._change_phone_second = phone;
+    }
+
 
     get types() {
         return this._types;
@@ -77,5 +87,11 @@ export default class PhonesStore {
     }
     get sort() {
         return this._sort;
+    }
+    get change_phone_first() {
+        return this._change_phone_first;
+    }
+    get change_phone_second() {
+        return this._change_phone_second;
     }
 }

@@ -5,6 +5,7 @@ const checkRole = require('../middleware/checkRoleMiddleware');
 
 router
     .post('/', phonesController.create)
+    .get('/getAll', phonesController.getAllAn)
     .get('/', phonesController.getAll)
     .get('/search', phonesController.getSearchAllPhonesByName)
     .get('/:id', phonesController.getOne)
