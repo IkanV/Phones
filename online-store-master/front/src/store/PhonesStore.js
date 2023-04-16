@@ -19,8 +19,18 @@ export default class PhonesStore {
         this._limit = 9;
         this._change_phone_first = {}
         this._change_phone_second = {}
+        this._grand_price = {}
+        this._total_price = {}
 
         makeAutoObservable(this);
+    }
+
+    setGrandPrice(priceG){
+        this._grand_price = priceG;
+    }
+
+    setTotalPrice(priceT){
+        this._total_price = priceT;
     }
 
     setSelectedType(selectedType) {
@@ -93,5 +103,11 @@ export default class PhonesStore {
     }
     get change_phone_second() {
         return this._change_phone_second;
+    }
+    get grandPrice(){
+        return this._grand_price;
+    }
+    get totalPrice(){
+        return this._total_price;
     }
 }
