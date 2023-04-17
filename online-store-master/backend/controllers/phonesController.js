@@ -65,7 +65,7 @@ class PhonesController {
         try {
             let {brandId, typeId, limit, page, searchName, sort} = req.query;
             page = page || 1
-            limit = limit || 9
+            limit = limit || 12
             let offset = page * limit - limit
             let clothing = {};
             if(typeId === 0){

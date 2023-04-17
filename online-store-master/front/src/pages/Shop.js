@@ -47,7 +47,7 @@ const Shop = observer(() => {
         //     console.log('4', phones.selectedBrand.id)
           //  }));
         let max = Math.max(...test2.filter(x => x.brandId === phones.selectedBrand.id).map(o => o.rating));
-        setPhoneRec(test2.find(e => e.rating === max));
+        setPhoneRec(test2.find(e => e.rating === max && e.brandId === phones.selectedBrand.id));
         //console.log('2', max);
         console.log(typeof phones.clothing);
         const test6 = Object.entries(phones.clothing);
@@ -71,7 +71,7 @@ const Shop = observer(() => {
     useEffect(() => {
         fetchTypes().then(data => phones.setTypes(data));
         fetchBrands().then(data => phones.setBrands(data));
-        fetchPhones(null, null, 1, 9).then(data => {
+        fetchPhones(null, null, 1, 12).then(data => {
             phones.setClothing(data.rows);
             phones.setTotalCount(data.count);
             test = data.rows;
@@ -85,13 +85,13 @@ const Shop = observer(() => {
                 phones.setSelectedSort(all)
             }
             if(phones.selectedType === "All" || !phones.selectedType) {
-                    fetchPhones(null, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 9, searchPhones).then(data => {
+                    fetchPhones(null, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 12, searchPhones).then(data => {
                         
                         phones.setClothing(data.rows);
                         phones.setTotalCount(data.count);
                     });
                 } else {
-                    fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 9, searchPhones).then(data => {
+                    fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.selectedSort.id, phones.page, 12, searchPhones).then(data => {
                         phones.setClothing(data.rows);
                         phones.setTotalCount(data.count);
                     });
@@ -111,7 +111,7 @@ const Shop = observer(() => {
                 />
                 <Button
                     onClick={() => {
-                        fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.page, 9, searchPhones)}}
+                        fetchPhones(phones.selectedType.id, phones.selectedBrand.id, phones.page, 12, searchPhones)}}
                     variant="outline-dark"
                     className="ml-2"
                 >

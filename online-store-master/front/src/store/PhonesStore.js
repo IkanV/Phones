@@ -16,7 +16,7 @@ export default class PhonesStore {
         this._page = 1;
         this._selectedSort = {};
         this._totalCount = 0;
-        this._limit = 9;
+        this._limit = 12;
         this._change_phone_first = {}
         this._change_phone_second = {}
         this._grand_price = {}

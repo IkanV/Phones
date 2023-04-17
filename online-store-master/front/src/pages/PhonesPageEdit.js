@@ -21,6 +21,7 @@ const PhonesPageEdit = () => {
     const [img, setImg] = useState("");
     const [imgFile, setImgFile] = useState(null);
     const [info, setInfo] = useState([]);
+    const [file, setFile] = useState(null);
 
     const [isDisabledPutBtn, setDisabledPutBtn] = useState(true);
 
@@ -29,21 +30,24 @@ const PhonesPageEdit = () => {
             history.push(ADMIN_ROUTE);
         })
     }
+    const selectFile = e => {
+        setFile(e.target.files[0]);
+    };
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const imgHandler = e => {
-        e.preventDefault();
+    // const imgHandler = e => {
+    //     e.preventDefault();
 
-        const reader = new FileReader();
-        reader.onload = () => {
-            setImg(reader.result); ////ERROR!!!!!!!!!!!!!!!!!!!!!1
-        };
-        reader.readAsDataURL(e.target.files[0]);
-        setImgFile(e.target.files[0]);
-    }
+    //     const reader = new FileReader();
+    //     reader.onload = () => {
+    //         setImg(reader.result);
+    //     };
+    //     reader.readAsDataURL(e.target.files[0]);
+    //     setImgFile(e.target.files[0]);
+    // }
 
     //info
     const addInfo = () => {
@@ -55,21 +59,21 @@ const PhonesPageEdit = () => {
     };
 
     const changeInfo = (key, value, number) => {
-        setInfo(info.map(i => i.id === number ? {...i, [key]: value} : i));
+        setInfo(info.filter(item => item.number !== number).map(i => i.id === number ? {...i, [key]: value} : i));
     };
 
     const putPhones = () => {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', `${price}`);
-        formData.append('img', img);
+        formData.append('img', file);
         formData.append('brandId', selectBrand.id);
         formData.append('typeId', selectType.id);
         formData.append('info', JSON.stringify(info));
         updateClothing(id, formData).then(data => {
             setShowMsg(true);
             setMsg(data);
-            setTimeout(() => setShowMsg(true), 5000)
+            setTimeout(() => setShowMsg(true), 2000)
         });
     }
 
@@ -99,14 +103,14 @@ const PhonesPageEdit = () => {
                 phonesCurr.name !== name ||
                 phonesCurr.price !== price ||
                 checkInfoVal ||
-                img
+                file
             ) {
                 setDisabledPutBtn(false);
             } else {
                 setDisabledPutBtn(true);
             }
         }
-    }, [name, selectBrand, selectType, price, img, info]);
+    }, [name, selectBrand, selectType, price, file, info]);
 
     useEffect(() => {
         fetchOnePhones(id).then(data => {
@@ -234,14 +238,14 @@ const PhonesPageEdit = () => {
                             Current Img: <br/>
                             <Image style={{margin: "0 auto", marginTop: 15}} width={150} src={process.env.REACT_APP_API_URL + phonesCurr.img}/>
                         </Col>
-                        {img && <Col xs={6} className="d-flex flex-column justify-content-center text-center">
+                        {file && <Col xs={6} className="d-flex flex-column justify-content-center text-center">
                             New Img: <br/>
-                            <Image style={{margin: "0 auto", marginTop: 15}} width={150} src={img}/>
+                            <Image style={{margin: "0 auto", marginTop: 15}} width={150} src={file}/>
                         </Col>}
                         <Col xs={3} className="d-flex align-items-center">
                             <Form.Group controlId="formFile" className="mb-3">
                                 <Form.Group>
-                                    <Form.File id="exampleFormControlFile1" label="Upload file" onChange={imgHandler}/>
+                                    <Form.File id="exampleFormControlFile1" label="Upload file" onChange={selectFile}/>
                                 </Form.Group>
                             </Form.Group>
                         </Col>
