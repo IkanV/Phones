@@ -6,7 +6,7 @@ const ordersController = require('./../controllers/ordersController');
 const checkRole = require('./../middleware/checkRoleMiddleware');
 
 router
-    .post('/', body('phone')
+    .post('/', body('mobile')
     .custom((val) => {
         if (!val.match('^[+][0-9]{1,4}[\\]([0-9]{1,4}[)][0-9]{3}[-][0-9]{2}[-][0-9]{2}')) {
             throw new Error("invalid phone number")

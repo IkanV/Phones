@@ -49,7 +49,8 @@ const Auth = observer(() => {
                 for(let i = 0; i < e.response.data.errors.length; i++){
                     messagee += e.response.data.errors[i].msg + '\n'
                 }
-                alert(messagee);
+                document.getElementById("error").innerHTML = messagee;
+            document.getElementById("error").style.color = "red";
             }else{
                 alert(e.response.data.message);
             }
@@ -81,6 +82,7 @@ const Auth = observer(() => {
                         onChange={e => setPassword(e.target.value)}
                         type="password"
                     />
+                    <p style={{fontSize: 20}} id="error"></p>
                     <Row className="d-flex justify-content-between mt-3 pl-3 pr-3 align-items-center">
                         {isLogin ?
                             <div>

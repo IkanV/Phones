@@ -282,26 +282,39 @@ class PhonesController {
                             newVal.img = fileName;
                         }
 
+                        // if(info) {
+                        //     const infos= JSON.parse(info);
+                        //     if(infos.length == 0)
+                        //     {
+                        //         PhonesInfo.destroy(
+
+                        //             {
+                        //                 where:
+                        //                     {
+                        //                         phoneId: id
+                        //                     }
+                        //             }
+                        //         );
+                        //     }
+                        //     infos.forEach(i =>
+                        //         updateOrCreate(
+                        //             PhonesInfo,
+                        //             { phoneId : id },
+                        //             { phoneId : id, title:i.title, description:i.description}
+                        //         )
+                        //     )}
                         if(info) {
                             const infos= JSON.parse(info);
-                            if(infos.length == 0)
-                            {
-                                PhonesInfo.destroy(
-
-                                    {
-                                        where:
-                                            {
-                                                phoneId: id
-                                            }
-                                    }
-                                );
-                            }
+                             PhonesInfo.destroy(
+                                { where: { phoneId: id }}
+                            );
                             infos.forEach(i =>
-                                updateOrCreate(
-                                    PhonesInfo,
-                                    { phoneId : id },
-                                    { phoneId : id, title:i.title, description:i.description}
-                                )
+                                PhonesInfo.create({
+                                    phoneId: id,
+                                    title:i.title,
+                                    description:i.description
+                                })
+
                             )}
 
                         await Phones.update({

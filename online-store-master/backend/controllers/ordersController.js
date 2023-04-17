@@ -4,14 +4,14 @@ const jwt = require('jsonwebtoken');
 const {validationResult} = require('express-validator')
 
 class OrdersController {
-    async create(req, res) {
+    async create(req, res, next) {
         const auth = req.headers.authorization || "";
         const {mobile, basket} = req.body;
         const errors = validationResult(req)
         if (!errors.isEmpty())
          {    return next(ApiError.badRequest('Validation error', errors.array()))}
         if (!mobile) {
-            return next(ApiError.badRequest('Not valid email or password'));
+            return next(ApiError.badRequest('Not valid mobile'));
         }
         try {
             let parseClothing = [];

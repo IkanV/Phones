@@ -11,7 +11,9 @@ const Ordering = ({cartItems}) => {
     const [phone, setPhone] = useState(null);
     const history = useHistory();
     const [ disButt, setdisButt ] = useState(true);
+    const [isChecked, setisChecked] = useState(false);
     const buy = () => {
+        if((/\+375\(\d{2}\)\d{3}\-\d{2}\-\d{2}/gm.test(phone))){
         let order = {
             mobile: phone,
             basket: basket.Basket
@@ -22,23 +24,31 @@ const Ordering = ({cartItems}) => {
         }
 
         sendOrder(order).then(data => {
-            console.log(data);
-            basket.setDeleteAllPhonesFromBasket();
-            history.push(SHOP_ROUTE);
-        });
-        const url = "http://localhost:5000/api";
-        axios.post(`${url}/stripe/create-checkout-session`, 
-        {
-            cartItems : basket.Basket,
-            userId : user.userId
-        }).then((res) => {
-            if(res.data.url){
-                window.location.href = res.data.url;
-            }
-        }).catch((err) => console.log(err.message))
+                    console.log(data);
+                    setisChecked(true)
+                basket.setDeleteAllPhonesFromBasket();
+                history.push(SHOP_ROUTE);
+            
+        }).catch((e) => {
+            alert(e.response.data.errors[0].msg) 
+            });
 
-
+            const url = "http://localhost:5000/api";
+            axios.post(`${url}/stripe/create-checkout-session`, 
+            {
+                cartItems : basket.Basket,
+                userId : user.userId
+            }).then((res) => {
+                if(res.data.url){
+                    window.location.href = res.data.url;
+                }
+            }).catch((err) => console.log(err.message))
+    }else{
+        document.getElementById("error").innerHTML = `Необходимо ввести нормальный телефон`;
+            document.getElementById("error").style.color = "red";
     }
+
+}
     return (
         <>
             <Form>
@@ -47,6 +57,7 @@ const Ordering = ({cartItems}) => {
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                 />
+                <p style={{fontSize: 20}} id="error"></p>
             </Form>
             <Row className="mt-3">
                 <Col xs={12}>

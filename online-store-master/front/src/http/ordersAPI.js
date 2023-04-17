@@ -3,6 +3,7 @@ import {$authHost, $host} from "./index";
 export const sendOrder = async ({auth, mobile, basket}) => {
     if(auth) {
         const {data} = await $authHost({method:'POST', url: 'api/orders', data: {mobile, basket}})
+        console.log(data)
         return data;
     } else {
         const {data} = await $host({method:'POST', url: 'api/orders', data: {mobile, basket}});
