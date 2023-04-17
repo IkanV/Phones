@@ -8,6 +8,7 @@ export const ORDERS_ROUTE = '/orders';
 export const PHONES_EDIT_ROUTE = '/phones/edit';
 export const ORDERING_ROUTE = '/checkout';
 export const INTO_CHAT_ROUTE = '/chat';
-export const CHECKOUT_SUCCESS = '/checkout-success'
-export const INTO_CHANGE = '/change'
+export const CHECKOUT_SUCCESS = '/checkout-success';
+export const INTO_CHANGE = '/change';
+export const SUCCESS_CHANGE = '/success-change'
 

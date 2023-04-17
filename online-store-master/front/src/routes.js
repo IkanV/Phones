@@ -5,7 +5,7 @@ import {
     LOGIN_ROUTE, ORDERING_ROUTE,
     ORDERS_ROUTE,
     REGISTRATION_ROUTE,
-    SHOP_ROUTE, CHECKOUT_SUCCESS, INTO_CHANGE
+    SHOP_ROUTE, CHECKOUT_SUCCESS, INTO_CHANGE, SUCCESS_CHANGE
 } from './utils/consts';
 
 import Admin from "./pages/Admin";
@@ -20,6 +20,7 @@ import Ordering from "./pages/Ordering";
 import UserChat from "./pages/UserChat";
 import CheckoutSuccess from './components/CheckoutSuccess';
 import ChangeWindow from './components/ChangeWindow';
+import SuccessChange from './components/SuccessChange';
 
 
 export const authRouters = [
@@ -83,5 +84,9 @@ export const publicRouters = [
     {
         path: INTO_CHANGE,
         Component : ChangeWindow
+    },
+    {
+        path: SUCCESS_CHANGE,
+        Component: SuccessChange
     }
 ];

@@ -20,6 +20,8 @@ import {
 } from "react-bootstrap";
 import {getAllClothingInAdminPage} from "../http/phonesAPI";
 import { Card } from '@material-ui/core';
+import star from './../assets/star.png';
+
 
 const Shop = observer(() => {
     const {phones} = useContext(Context);
@@ -129,7 +131,10 @@ const Shop = observer(() => {
                                 <Dropdown.Item key={sort_type.id} onClick={() => phones.setSelectedSort(sort_type)}>{sort_type.name}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
+                        
                         {showRec && phoneRec && phoneRec.brandId && (
+                            <div>
+                            <h5> Рекомендован {phoneRec.name} c наивысшим рейтингом: </h5>
                         <Card
                 className="p-2"
                 style={{width: 150, height:230, cursor: "pointer"}}
@@ -140,12 +145,13 @@ const Shop = observer(() => {
                     <div className="text-black-50">{phones && phoneRec.brandId && phoneRec.brand.name}</div>
                     <div className="d-flex align-items-center">
                         <div>{phoneRec.rating}</div>
-                        <Image className="ml-1" src={phoneRec.star} style={{width: "20px", height: "20px"}}/>
+                        <Image className="ml-1" src={star} style={{width: "20px", height: "20px"}}/>
                     </div>
                 </div>
                 <div>{phoneRec.name}</div>
                 <div>{phoneRec.price}$</div>
             </Card>
+            </div>
             )}
 
                     </Dropdown>

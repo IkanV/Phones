@@ -8,10 +8,13 @@ import PhonesItem3 from "./PhonesItem3";
 import { observer } from "mobx-react-lite";
 import PhoneInfo from "./PhoneInfo";
 import PhoneInfo2 from "./PhoneInfo2";
+import {useHistory} from "react-router-dom";
 import {fetchBrands, fetchPhones, fetchTypes} from "../http/phonesAPI";
+import { SUCCESS_CHANGE } from "../utils/consts";
 
 const ChangeWindow = observer(() => {
     const {phones} = useContext(Context);
+    const history = useHistory();
     const [searchPhones, setSearchPhones] = useState('');
     useEffect(
         () => {
@@ -77,7 +80,7 @@ const ChangeWindow = observer(() => {
             </Card>
      </Row> 
      <Row>
-        <Button>Хочу Обменять!</Button>
+        <Button onClick={() => {history.push(SUCCESS_CHANGE)}}>Хочу Обменять!</Button>
         <p style={{fontSize: 20}} id="grandPrice"></p>
         </Row>  
 </Container>

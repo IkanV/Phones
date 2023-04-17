@@ -10,7 +10,7 @@ const Ordering = ({cartItems}) => {
     const {basket, user} = useContext(Context);
     const [phone, setPhone] = useState(null);
     const history = useHistory();
-
+    const [ disButt, setdisButt ] = useState(true);
     const buy = () => {
         let order = {
             mobile: phone,
