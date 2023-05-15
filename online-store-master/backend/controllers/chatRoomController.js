@@ -1,4 +1,4 @@
-const ApiError = require('../error/ApiError');
+const ApiError = require('../error/apiError');
 const {ChatRoom} = require('../models/models');
 
 

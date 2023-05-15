@@ -13,7 +13,7 @@ const Ordering = ({cartItems}) => {
     const [ disButt, setdisButt ] = useState(true);
     const [isChecked, setisChecked] = useState(false);
     const buy = () => {
-        if((/\+375\(\d{2}\)\d{3}\-\d{2}\-\d{2}/gm.test(phone))){
+        if((/\+375\d{2}\Вd{7}/gm.test(phone))){
         let order = {
             mobile: phone,
             basket: basket.Basket
